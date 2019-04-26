@@ -1,0 +1,430 @@
+priority -50
+
+###########################################################################
+#                            TEXTMATE SNIPPETS                            #
+###########################################################################
+
+snippet fire "fire" b
+import os
+import fire
+import logging
+import kanilog
+import stdlogging
+from pathlib import Path
+
+
+def main():
+	${1:${VISUAL:pass}}
+
+	
+if __name__ == `!p snip.rv = get_quoting_style(snip)`__main__`!p snip.rv = get_quoting_style(snip)`:
+	os.chdir(Path(__file__).parent)
+	kanilog.setup_logger(logfile='/tmp/%s.log' % (Path(__file__).name), level=logging.INFO)
+	stdlogging.enable()
+	fire.Fire(main)
+endsnippet
+
+snippet kanirequests "change directory to the file directory" b
+from kanirequests import KaniRequests
+
+headers = {
+	"User-Agent": "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0",
+	'Accept-Language': 'ja,en-US;q=0.7,en;q=0.3',
+	'Connection': 'keep-alive',
+	'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+	'Accept-Encoding': 'gzip, deflate, br',
+	'Cache-Control': 'max-age=0'
+}
+
+session = KaniRequests(headers=headers)
+endsnippet
+
+snippet chdirfile "change directory to the file directory" b
+os.chdir(Path(__file__).parent)
+endsnippet
+
+snippet keyringplain "use plain text keyring" b
+import keyring
+import keyrings.alt
+keyring.set_keyring(keyrings.alt.file.PlaintextKeyring())
+keyring.allow_insecure_backend = True
+endsnippet
+
+snippet singleton "make single instance" b
+from tendo import singleton
+me = singleton.SingleInstance()
+endsnippet
+
+
+snippet benchmarker "benchmark" b
+from benchmarker import Benchmarker
+
+with Benchmarker(10000, width=40) as bench:
+	@bench("name")
+	def _(bm):
+		for i in bm:
+			pass
+endsnippet
+
+snippet defm "define instance method" b
+def ${1:method}(self, ${2:*args, **kwargs}):
+	${5:super(SuperClass, self).$1($2)}
+	${0:pass}
+endsnippet
+
+snippet defi "define initialize instance method" b
+def ${1:__init__}(self, ${2:*args, **kwargs}):
+	${5:super(SuperClass, self).$1($2)}
+	self.log = logging.getLogger(${0:self.__class__.__name__})
+endsnippet
+
+snippet classlogger "class initialized getLogger" b
+	self.log = logging.getLogger(${0:self.__class__.__name__})
+endsnippet
+
+snippet pathlibfrom "import pathlib.Path" b
+from pathlib import Path
+endsnippet
+
+snippet filelogger "getLogger(__file__)" b
+from pathlib import Path
+logger = logging.getLogger(Path(__file__).name)
+endsnippet
+
+snippet kanimysql "kanimysql instance create" b
+import kanimysql
+import yaml
+
+yaml_data = '''
+	db: 
+	user: 
+	passwd: 
+	host: 127.0.0.1
+	port: 3306
+	charset: utf8
+'''
+db_settings = yaml.load(yaml_data)
+conn = kanimysql.KaniMySQL(*db_settings)
+endsnippet
+
+snippet freezegun "freezegun snippets" b
+from freezegun import freeze_time
+
+with freeze_time("2012-01-14"):
+	pass
+endsnippet
+
+snippet request-session "request-session" b
+import requests
+import requests_html
+
+headers = {
+	"User-Agent": "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0",
+	'Accept-Language': 'ja,en-US;q=0.7,en;q=0.3',
+	'Connection': 'keep-alive',
+	'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+	'Accept-Encoding': 'gzip, deflate, br',
+	'Cache-Control': 'max-age=0'
+}
+
+session = requests_html.HTMLSession(header)
+session.headers.update(headers)
+adapters = requests.adapters.HTTPAdapter(max_retries=3)
+session.mount("http://", adapters)
+session.mount("https://", adapters)
+endsnippet
+
+snippet parent_system_path "add parent directory to system_path" b
+from add_parent_path import add_parent_path
+with add_parent_path():
+	pass
+endsnippet
+
+snippet traceback_logging "traceback_logging" b
+import sys, traceback
+logging.error(sys.exc_info())
+logging.error(traceback.format_exc())
+endsnippet
+
+snippet log_anywhere "log from anywhere" b
+__import__('kanilog').log_anywhere('${0:}')
+endsnippet
+
+snippet logzero_setup "logzero default setting" b
+import kanilog
+import logging
+import stdlogging
+from pathlib import Path
+
+kanilog.setup_logger(logfile='/tmp/%s.log'%(Path(__file__).name), level=logging.INFO)
+stdlogging.enable()
+stderr = kanilog.get_stderr_logger()
+endsnippet
+
+snippet numpandas "Pandas Numpy Import" b
+import numpy as np
+import pandas as pd
+endsnippet
+
+snippet mysqlalchemy "Create SQLAlchemy engine to connect Mysql" b
+from sqlalchemy import create_engine
+db_settings = {
+    "host": '',
+    "database": '',
+    "user": '',
+    "password": '',
+    "port":3306
+}
+engine = create_engine('mysql://{user}:{password}@{host}:{port}/{database}?charset=utf8'.format(**db_settings))
+endsnippet
+
+snippet kanimain "kanimain" b
+import os
+import logging
+import kanilog
+import stdlogging
+from pathlib import Path
+
+
+def main():
+	${1:${VISUAL:pass}}
+
+
+if __name__ == `!p snip.rv = get_quoting_style(snip)`__main__`!p snip.rv = get_quoting_style(snip)`:
+	os.chdir(Path(__file__).parent)
+	kanilog.setup_logger(logfile='/tmp/%s.log' % (Path(__file__).name), level=logging.INFO)
+	stdlogging.enable()
+	main()
+endsnippet
+
+
+
+##########
+# COMMON #
+##########
+
+# The smart def and smart class snippets use a global option called
+# "g:ultisnips_python_style" which, if set to "doxygen" will use doxygen
+# style comments in docstrings.
+
+global !p
+
+NORMAL  = 0x1
+DOXYGEN = 0x2
+SPHINX  = 0x3
+GOOGLE  = 0x4
+NUMPY   = 0x5
+JEDI    = 0x6
+
+SINGLE_QUOTES = "'"
+DOUBLE_QUOTES = '"'
+
+
+class Arg(object):
+	def __init__(self, arg):
+		self.arg = arg
+		name_and_type = arg.split('=')[0].split(':')
+		self.name = name_and_type[0].strip()
+		self.type = name_and_type[1].strip() if len(name_and_type) == 2 else None
+
+	def __str__(self):
+		return self.name
+
+	def __unicode__(self):
+		return self.name
+
+	def is_kwarg(self):
+		return '=' in self.arg
+
+	def is_vararg(self):
+		return '*' in self.name
+
+
+def get_args(arglist):
+	args = [Arg(arg) for arg in arglist.split(',') if arg]
+	args = [arg for arg in args if arg.name != 'self']
+
+	return args
+
+
+def get_quoting_style(snip):
+	style = snip.opt("g:ultisnips_python_quoting_style", "double")
+	if style == 'single':
+		return SINGLE_QUOTES
+	return DOUBLE_QUOTES
+
+def triple_quotes(snip):
+	style = snip.opt("g:ultisnips_python_triple_quoting_style")
+	if not style:
+		return get_quoting_style(snip) * 3
+	return (SINGLE_QUOTES if style == 'single' else DOUBLE_QUOTES) * 3
+
+def triple_quotes_handle_trailing(snip, quoting_style):
+	"""
+	Generate triple quoted strings and handle any trailing quote char,
+	which might be there from some autoclose/autopair plugin,
+	i.e. when expanding ``"|"``.
+	"""
+	if not snip.c:
+		# Do this only once, otherwise the following error would happen:
+		# RuntimeError: The snippets content did not converge: …
+		_, col = vim.current.window.cursor
+		line = vim.current.line
+
+		# Handle already existing quote chars after the trigger.
+		_ret = quoting_style * 3
+		while True:
+			try:
+				nextc = line[col]
+			except IndexError:
+				break
+			if nextc == quoting_style and len(_ret):
+				_ret = _ret[1:]
+				col = col+1
+			else:
+				break
+		snip.rv = _ret
+	else:
+		snip.rv = snip.c
+
+def get_style(snip):
+	style = snip.opt("g:ultisnips_python_style", "normal")
+
+	if    style == "doxygen": return DOXYGEN
+	elif  style == "sphinx": return SPHINX
+	elif  style == "google": return GOOGLE
+	elif  style == "numpy": return NUMPY
+	elif  style == "jedi": return JEDI
+	else: return NORMAL
+
+
+def format_arg(arg, style):
+	if style == DOXYGEN:
+		return "@param %s TODO" % arg
+	elif style == SPHINX:
+		return ":param %s: TODO" % arg
+	elif style == NORMAL:
+		return ":%s: TODO" % arg
+	elif style == GOOGLE:
+		return "%s (TODO): TODO" % arg
+	elif style == JEDI:
+		return ":type %s: TODO" % arg
+	elif style == NUMPY:
+		return "%s : TODO" % arg
+
+
+def format_return(style):
+	if style == DOXYGEN:
+		return "@return: TODO"
+	elif style in (NORMAL, SPHINX, JEDI):
+		return ":returns: TODO"
+	elif style == GOOGLE:
+		return "Returns: TODO"
+
+
+def write_docstring_args(args, snip):
+	if not args:
+		snip.rv += ' {0}'.format(triple_quotes(snip))
+		return
+
+	snip.rv += '\n' + snip.mkline('', indent='')
+
+	style = get_style(snip)
+
+	if style == GOOGLE:
+		write_google_docstring_args(args, snip)
+	elif style == NUMPY:
+		write_numpy_docstring_args(args, snip)
+	else:
+		for arg in args:
+			snip += format_arg(arg, style)
+
+
+def write_google_docstring_args(args, snip):
+	kwargs = [arg for arg in args if arg.is_kwarg()]
+	args = [arg for arg in args if not arg.is_kwarg()]
+
+	if args:
+		snip += "Args:"
+		snip.shift()
+		for arg in args:
+			snip += format_arg(arg, GOOGLE)
+		snip.unshift()
+		snip.rv += '\n' + snip.mkline('', indent='')
+
+	if kwargs:
+		snip += "Kwargs:"
+		snip.shift()
+		for kwarg in kwargs:
+			snip += format_arg(kwarg, GOOGLE)
+		snip.unshift()
+		snip.rv += '\n' + snip.mkline('', indent='')
+
+
+def write_numpy_docstring_args(args, snip):
+	if args:
+		snip += "Parameters"
+		snip += "----------"
+
+	kwargs = [arg for arg in args if arg.is_kwarg()]
+	args = [arg for arg in args if not arg.is_kwarg()]
+
+	if args:
+		for arg in args:
+			snip += format_arg(arg, NUMPY)
+	if kwargs:
+		for kwarg in kwargs:
+			snip += format_arg(kwarg, NUMPY) + ', optional'
+	snip.rv += '\n' + snip.mkline('', indent='')
+
+
+def write_init_body(args, parents, snip):
+	parents = [p.strip() for p in parents.split(",")]
+	parents = [p for p in parents if p != 'object']
+
+	for p in parents:
+		snip += p + ".__init__(self)"
+
+	if parents:
+		snip.rv += '\n' + snip.mkline('', indent='')
+
+	for arg in filter(lambda arg: not arg.is_vararg(), args):
+		snip += "self._%s = %s" % (arg, arg)
+
+
+def write_slots_args(args, snip):
+	quote = get_quoting_style(snip)
+	arg_format = quote + '_%s' + quote
+	args = [arg_format % arg for arg in args]
+	snip += '__slots__ = (%s,)' % ', '.join(args)
+
+
+def write_function_docstring(t, snip):
+	"""
+	Writes a function docstring with the current style.
+
+	:param t: The values of the placeholders
+	:param snip: UltiSnips.TextObjects.SnippetUtil object instance
+	"""
+	snip.rv = ""
+	snip >> 1
+
+	args = get_args(t[2])
+	if args:
+		write_docstring_args(args, snip)
+
+	style = get_style(snip)
+
+	if style == NUMPY:
+		snip += 'Returns'
+		snip += '-------'
+		snip += 'TODO'
+	else:
+		snip += format_return(style)
+	snip.rv += '\n' + snip.mkline('', indent='')
+	snip += triple_quotes(snip)
+
+def get_dir_and_file_name(snip):
+	return os.getcwd().split(os.sep)[-1] + '.' + snip.basename
+
+endglobal
