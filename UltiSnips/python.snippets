@@ -39,7 +39,13 @@ headers = {
 session = KaniRequests(headers=headers)
 endsnippet
 
+snippet filepath "get file path" b
+from pathlib import Path
+Path(__file__)
+endsnippet
+
 snippet chdirfile "change directory to the file directory" b
+from pathlib import Path
 os.chdir(Path(__file__).parent)
 endsnippet
 
@@ -107,6 +113,26 @@ db_settings = yaml.load(yaml_data)
 conn = kanimysql.KaniMySQL(*db_settings)
 endsnippet
 
+snippet htmlform "kanimysql instance create" b
+from urlpath import URL
+
+from urllib.parse import urlparse
+form = result.html.find('form', first=True)
+url = URL(result.url) / form.attrs['action']
+inputs = form.find('input') + form.find('button')
+message = {}
+headers = {
+	"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+}
+for el in inputs:
+	if 'name' in el.attrs:
+		if 'value' in el.attrs:
+			message[el.attrs['name']] = el.attrs['value']
+		else:
+			message[el.attrs['name']] = None
+result = session.post(url, data=message, headers=headers)
+endsnippet
+
 snippet freezegun "freezegun snippets" b
 from freezegun import freeze_time
 
@@ -150,7 +176,7 @@ snippet log_anywhere "log from anywhere" b
 __import__('kanilog').log_anywhere('${0:}')
 endsnippet
 
-snippet logzero_setup "logzero default setting" b
+snippet kanilog_setup "logzero default setting" b
 import kanilog
 import logging
 import stdlogging
@@ -197,6 +223,12 @@ if __name__ == `!p snip.rv = get_quoting_style(snip)`__main__`!p snip.rv = get_q
 	main()
 endsnippet
 
+
+snippet modulelogger "module logger" b
+import kanilog
+
+logger = kanilog.get_module_logger(__file__, ${1:0})
+endsnippet
 
 
 ##########

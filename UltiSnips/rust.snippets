@@ -1,0 +1,47 @@
+snippet fnnew "Constructor function"
+pub fn new(${2}) -> Self {
+	${1:Struct} { $2 }
+}
+endsnippet
+
+snippet implnew "Implement Constructor function"
+pub crate ${1:Struct}{
+	pub fn new(${2}) -> Self {
+		$1 { $2 }
+	}
+}
+endsnippet
+
+snippet mfn "Method"
+fn ${0}(${1})${2}{
+	${3}
+}
+endsnippet
+
+snippet mfnp "public Method with shared self"
+pub fn ${0}(&self, ${1})${2}{
+	${3}
+}
+endsnippet
+
+snippet mfnpm "public Method with mutable self"
+pub fn ${1}(&mut self, ${2})${3}{
+	${4}
+}
+endsnippet
+
+snippet clo "closure"
+|${1}| { ${2} }
+endsnippet
+
+snippet filter "iter filter" w
+filter(|${1}| { ${2} })
+endsnippet
+
+snippet iter "iter" w
+iter()
+endsnippet
+
+snippet iter_mut "iter_mut" w
+iter_mut()
+endsnippet
