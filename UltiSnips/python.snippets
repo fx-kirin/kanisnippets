@@ -4,12 +4,30 @@ priority -50
 #                            TEXTMATE SNIPPETS                            #
 ###########################################################################
 
+snippet pool "make multiprocessing.Pool" b
+import multiprocessing
+import psutil
+import queue
+
+def worker(arg_queue):
+	arg1, arg2 = arg_queue.get()
+	# Write your work here.
+
+arg_list = []
+arg_queue = queue.Queue
+for arg in arg_list:
+	queue.put(arg)
+
+cores = psutil.cpu_count(logical=False)
+pool = multiprocessing.Pool(cores)
+pool.map(worker, [arg_queue for _ in range(len(arg_list))])
+endsnippet
+
 snippet fire "fire" b
 import os
 import fire
 import logging
 import kanilog
-import stdlogging
 from pathlib import Path
 
 
@@ -20,7 +38,6 @@ def main():
 if __name__ == `!p snip.rv = get_quoting_style(snip)`__main__`!p snip.rv = get_quoting_style(snip)`:
 	os.chdir(Path(__file__).parent)
 	kanilog.setup_logger(logfile='/tmp/%s.log' % (Path(__file__).name), level=logging.INFO)
-	stdlogging.enable()
 	fire.Fire(main)
 endsnippet
 
@@ -42,6 +59,36 @@ endsnippet
 snippet filepath "get file path" b
 from pathlib import Path
 Path(__file__)
+endsnippet
+
+snippet yagmail "yagmail snippet" b
+import yagmail
+
+yag = yagmail.SMTP(
+	gmail_address, oauth2_file="<path>"
+)
+endsnippet
+
+snippet kanirequestsmail "kanirequests with mailer" b
+from kanirequests import KaniRequests
+import yagmail
+
+headers = {
+	"User-Agent": "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0",
+	'Accept-Language': 'ja,en-US;q=0.7,en;q=0.3',
+	'Connection': 'keep-alive',
+	'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+	'Accept-Encoding': 'gzip, deflate, br',
+	'Cache-Control': 'max-age=0'
+}
+
+session = KaniRequests(headers=headers)
+yag = yagmail.SMTP(
+	gmail_address, oauth2_file="~/client_secret_pgkireek.json"
+)
+mail_to = "ono.kirin@gmail.com"
+subject = ""
+session.set_error_mailer(yag, mail_to, subject)
 endsnippet
 
 snippet chdirfile "change directory to the file directory" b
@@ -179,11 +226,9 @@ endsnippet
 snippet kanilog_setup "logzero default setting" b
 import kanilog
 import logging
-import stdlogging
 from pathlib import Path
 
 kanilog.setup_logger(logfile='/tmp/%s.log'%(Path(__file__).name), level=logging.INFO)
-stdlogging.enable()
 stderr = kanilog.get_stderr_logger()
 endsnippet
 
@@ -208,7 +253,6 @@ snippet kanimain "kanimain" b
 import os
 import logging
 import kanilog
-import stdlogging
 from pathlib import Path
 
 
@@ -219,7 +263,6 @@ def main():
 if __name__ == `!p snip.rv = get_quoting_style(snip)`__main__`!p snip.rv = get_quoting_style(snip)`:
 	os.chdir(Path(__file__).parent)
 	kanilog.setup_logger(logfile='/tmp/%s.log' % (Path(__file__).name), level=logging.INFO)
-	stdlogging.enable()
 	main()
 endsnippet
 
