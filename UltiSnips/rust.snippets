@@ -1,32 +1,32 @@
 snippet fnnew "Constructor function"
 pub fn new(${2}) -> Self {
-	${1:Struct} { $2 }
+    ${1:Struct} { $2 }
 }
 endsnippet
 
 snippet implnew "Implement Constructor function"
 pub crate ${1:Struct}{
-	pub fn new(${2}) -> Self {
-		$1 { $2 }
-	}
+    pub fn new(${2}) -> Self {
+        $1 { $2 }
+    }
 }
 endsnippet
 
 snippet mfn "Method"
 fn ${0}(${1})${2}{
-	${3}
+    ${3}
 }
 endsnippet
 
 snippet mfnp "public Method with shared self"
 pub fn ${0}(&self, ${1})${2}{
-	${3}
+    ${3}
 }
 endsnippet
 
 snippet mfnpm "public Method with mutable self"
 pub fn ${1}(&mut self, ${2})${3}{
-	${4}
+    ${4}
 }
 endsnippet
 
@@ -44,4 +44,30 @@ endsnippet
 
 snippet iter_mut "iter_mut" w
 iter_mut()
+endsnippet
+
+snippet pymethods "pyo3 methods" w
+#[pymethods]
+impl MyClass {
+    #[new]
+    fn new() -> Self {
+        MyClass { }
+    }
+}
+endsnippet
+
+snippet pyclass "pyo3 class" w
+#[pyclass(name="PyClass")]
+struct PyClass {
+}
+
+
+#[pymethods]
+impl PyClass {
+    #[new]
+    fn new() -> Self {
+        Self {
+        }
+    }
+}
 endsnippet
