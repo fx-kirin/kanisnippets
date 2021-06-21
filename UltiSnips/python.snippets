@@ -53,7 +53,7 @@ if st.button("About App"):
 endsnippet
 
 snippet stselect "streamlit selectbox" b
-st.selectbox(label, options, index=0, key=None)
+st.selectbox(label, options, index=0, key=None, format_func=lambda x:x)
 endsnippet
 
 snippet sttext "streamlit textbox" b
